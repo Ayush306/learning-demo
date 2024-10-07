@@ -14,25 +14,19 @@ import { MatLabel } from '@angular/material/form-field';
   styleUrl: './common-popup.component.css'
 })
 export class CommonPopupComponent implements OnInit {
-  constructor(private commonService: CommonService,
-    private dialogRef: MatDialogRef<CommonPopupComponent>,
+  constructor(
     @Inject(MAT_DIALOG_DATA) public requestData: any
   ) { }
   confirmMsg: any;
   ngOnInit(): void {
-
-    if (this.requestData) {
-      this.confirmMsg = this.requestData.message;  // Load the message from the injected requestData
-      console.log(this.confirmMsg);
-    }
+     this.confirmMsg = this.requestData.message;
   }
   no(){
-
-    this.requestData.f("you don not  have permission to delete this record");
-
+    this.requestData.f("User Click No");
+    
   }
   ok(){
-    this.requestData.s("Record Deleted successfully");
+    this.requestData.s("User Click OK");
   }
 }
 
