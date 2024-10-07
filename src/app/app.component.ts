@@ -29,15 +29,6 @@ export class AppComponent {
   confirmMsg = { message: '', s: () => { }, f: () => { } };
   ngOnInit() {
     this.getComments();
-
-    // this.commonSerivce.onConfirmMsg().subscribe({
-    //   next: (res: any) => {
-    //     console.log(res);
-    //   },
-    //   error: (err) => {
-    //     console.error('Error:', err);
-    //   },
-    // });
   }
 
   getComments() {
@@ -52,16 +43,29 @@ export class AppComponent {
       }
     })
   }
-  deleteRecord() {
+  deleteRecord(row:any) {
+    console.log(row);
+    
     this.commonSerivce.confirmbox({
-      message: "Are you sure want to delete this record ?", s: (sucussResponceFromAPI: any) => {
-        console.log("sucuss");
-        console.log(sucussResponceFromAPI);
-
-      }, f: (failedResponceFromAPI: any) => {
-
-        console.log("fail");
-        console.log(failedResponceFromAPI);
+      message: "Are you sure want to delete this record ?",
+       s: (UserResponce: any) => { 
+        console.log(UserResponce);
+        this.commonSerivce.deleteComment(row.id).subscribe({
+          next: (res: any) => {
+            if (res) {
+              alert('Comment Deleted Successfully');
+            } else {
+              alert('Something went wrong');
+            }
+          },
+          error: (err: any) => {
+            console.error('Error occurred:', err);
+            alert('Failed to delete the comment. Please try again.');
+          }
+      })
+      },
+       f: (failedResponce: any) => {
+        console.log(failedResponce);
 
       }
     })

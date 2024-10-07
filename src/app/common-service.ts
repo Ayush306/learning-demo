@@ -16,14 +16,16 @@ export class CommonService {
   public confirmbox(requestData: any) {
     this.openPopup(requestData);
   }
+  openPopup(requestData: any): void {
+    this.confirMsg.next({ requestData });
+    this.dialog.open(CommonPopupComponent,{ data: requestData });
+  }
  
   public getComments() {
     return this.http.get('https://jsonplaceholder.typicode.com/comments');
   }
-
-  openPopup(requestData: any): void {
-    this.confirMsg.next({ requestData });
-    this.dialog.open(CommonPopupComponent,{ data: requestData });
-    this.confirMsg.next(requestData)
+  public deleteComment(id:any) {
+    return this.http.delete(`https://jsonplaceholder.typicode.com/comments/${id}`);
   }
+ 
 }
