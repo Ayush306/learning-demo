@@ -21,14 +21,15 @@ import { MatTableModule } from '@angular/material/table';
 })
 export class AppComponent {
 
-
+  text = 'hi1';
   constructor(public dialog: MatDialog, private commonSerivce: CommonService) { }
   title = 'myapp';
   dataSource: any;
   displayedColumns: any;
-  confirmMsg = { message: '', s: () => { }, f: () => { } };
+  // confirmMsg = { message: '', s: () => { }, f: () => { } };
   ngOnInit() {
     this.getComments();
+    this.text = 'hi2';
   }
 
   getComments() {
@@ -43,13 +44,23 @@ export class AppComponent {
       }
     })
   }
-  deleteRecord(row:any) {
+  deleteRecord(row: any) {
     console.log(row);
-    
+    this.text = 'hi3';
+    setTimeout(() => {
+      this.text = 'hi4';
+      console.log(this.text);
+
+    }, 10000);
     this.commonSerivce.confirmbox({
       message: "Are you sure want to delete this record ?",
-       s: (UserResponce: any) => { 
+      s: (UserResponce: any) => {
         console.log(UserResponce);
+        console.log(this.text);
+        setTimeout(() => {
+          this.text = 'hi5';
+          console.log(this.text);
+        }, 10000);
         this.commonSerivce.deleteComment(row.id).subscribe({
           next: (res: any) => {
             if (res) {
@@ -62,9 +73,9 @@ export class AppComponent {
             console.error('Error occurred:', err);
             alert('Failed to delete the comment. Please try again.');
           }
-      })
+        })
       },
-       f: (failedResponce: any) => {
+      f: (failedResponce: any) => {
         console.log(failedResponce);
 
       }
