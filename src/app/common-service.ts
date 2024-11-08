@@ -1,29 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Observable, Subject } from 'rxjs';
-import { CommonPopupComponent } from './common-popup/common-popup.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
-  openPopupSub: Subject<any> = new Subject<any>();
-  public confirMsg: Subject<any> = new Subject<any>();
+  constructor(private http: HttpClient,) { }
 
-  constructor(private http: HttpClient, private dialog: MatDialog) { }
-
-  public confirmbox(requestData: any) {
-    this.openPopup(requestData);
-  }
- 
-  public getComments() {
-    return this.http.get('https://jsonplaceholder.typicode.com/comments');
+  url = 'https://localhost:7275/api'
+  genrateQrCode(){
+   return this.http.get(`${this.url}/auth/generate-qrcode`)
   }
 
-  openPopup(requestData: any): void {
-    this.confirMsg.next({ requestData });
-    this.dialog.open(CommonPopupComponent,{ data: requestData });
-    this.confirMsg.next(requestData)
-  }
+
 }
